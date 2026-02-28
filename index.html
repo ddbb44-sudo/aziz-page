@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقرير الختامي الشامل لكفالات ومشاريع الأستاذ عبد العزيز أبو محمد</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config for Colors & Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6', // Teal main
+                            700: '#0f766e',
+                            900: '#134e4a',
+                        },
+                        accent: {
+                            500: '#f59e0b', // Amber
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc; /* Light slate */
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        /* Chart Container Styling - Mandatory Constraint */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .modal-open {
+            overflow: hidden;
+        }
+
+        .tab-btn.active {
+            border-bottom: 2px solid #0f766e;
+            color: #0f766e;
+            font-weight: 700;
+        }
+
+        /* Custom Scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+
+    <!-- Chosen Palette: Warm Neutrals with Teal (Trust/Growth) and Amber (Warmth/Hope) Accents. Background is light slate. -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero/Vision: Sets the narrative tone (Relief -> Education shift). 
+         2. Financial Dashboard: High-level quantitative view using charts and stat cards to immediately answer "where did the money go?". 
+         3. Interactive Families Portfolio: A card grid with filtering. This allows users to explore qualitative/quantitative data per family without being overwhelmed. Click to open details.
+         4. Camps & Projects: Highlights the community impact (widows, rings). 
+         5. Governance/Transparency: Explains stopped sponsorships to build trust. -->
+    
+    <!-- Visualization & Content Choices: 
+         - Financial Summary -> Donut Chart (Chart.js)
+         - Financial Breakdown -> Bar Chart (Chart.js)
+         - Family Details -> Interactive Cards & Modal (HTML/JS)
+         - Icons: Switched from generic humans to Hijabi emoji (🧕) for cultural alignment. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl">🌱</span>
+                    <span class="font-bold text-xl text-brand-900 mr-2">مشاريع الأستاذ عبد العزيز</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                    <a href="#vision" class="text-gray-600 hover:text-brand-700 transition">الرؤية</a>
+                    <a href="#financials" class="text-gray-600 hover:text-brand-700 transition">الملخص المالي</a>
+                    <a href="#families" class="text-gray-600 hover:text-brand-700 transition">العائلات المكفولة</a>
+                    <a href="#camps" class="text-gray-600 hover:text-brand-700 transition">المخيمات</a>
+                    <a href="#governance" class="text-gray-600 hover:text-brand-700 transition">الرقابة</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Section 1: Hero & Vision -->
+        <section id="vision" class="bg-white rounded-2xl shadow-sm p-8 border border-gray-100 mt-4">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="text-sm font-bold tracking-wider text-brand-700 bg-brand-50 px-3 py-1 rounded-full">أبريل 2025 - فبراير 2026</span>
+                <h1 class="mt-4 text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">التقرير الختامي الشامل لكفالات ومشاريع <span class="text-brand-700">الأستاذ عبد العزيز أبو محمد</span></h1>
+                
+                <p class="mt-6 text-lg text-gray-600 leading-relaxed text-justify md:text-center">
+                    بدأ هذا المشروع بفضل الله ثم بدعمكم الكريم كبادرة لتقديم الكفالة المالية المباشرة للأرامل لتخفيف الأعباء المعيشية عن كاهلهن. ومع استمرار المتابعة الميدانية الحثيثة، استشعرنا ضرورة الانتقال من الدعم الإغاثي البحت إلى <strong>دعم أعمق يشمل الجوانب التربوية والتعليمية</strong>، مما أثمر عن تأسيس منظومة متكاملة تهدف لبناء الإنسان.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+                <div class="bg-brand-50 p-6 rounded-xl border border-brand-100 text-center hover:-translate-y-1 transition duration-300">
+                    <div class="text-4xl mb-3">📖</div>
+                    <h3 class="font-bold text-lg text-brand-900 mb-2">مقرأة سبيل الهدى</h3>
+                    <p class="text-gray-600 text-sm">لربط العائلات بالقرآن الكريم تعليماً وتربية وصناعة جيل قرآني.</p>
+                </div>
+                <div class="bg-brand-50 p-6 rounded-xl border border-brand-100 text-center hover:-translate-y-1 transition duration-300">
+                    <div class="text-4xl mb-3">🤝</div>
+                    <h3 class="font-bold text-lg text-brand-900 mb-2">برنامج "كلنا واحد"</h3>
+                    <p class="text-gray-600 text-sm">لاحتواء الأيتام الذكور وتوجيههم تربوياً واجتماعياً ليكونوا لبنة صالحة.</p>
+                </div>
+                <div class="bg-brand-50 p-6 rounded-xl border border-brand-100 text-center hover:-translate-y-1 transition duration-300">
+                    <div class="text-4xl mb-3">🧕</div>
+                    <h3 class="font-bold text-lg text-brand-900 mb-2">كفالة الأرامل المحفظات</h3>
+                    <p class="text-gray-600 text-sm">لتمكين الأرامل المؤهلات من العمل وخدمة المجتمع من داخل منازلهن.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Financial Dashboard -->
+        <section id="financials" class="space-y-6">
+            <div class="mb-8 border-r-4 border-brand-500 pr-4">
+                <h2 class="text-2xl font-bold text-gray-900">الملخص المالي التنفيذي</h2>
+                <p class="text-gray-600 mt-2">
+                    يعرض هذا القسم حركة الأموال بدقة وشفافية خلال فترة المشروع، ليوضح حجم التبرعات الواردة مقابل قنوات الصرف المختلفة.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center">
+                    <span class="text-gray-500 text-sm mb-1">إجمالي التبرعات</span>
+                    <span class="text-3xl font-black text-gray-900">32,000 $</span>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center border-b-4 border-b-rose-500">
+                    <span class="text-gray-500 text-sm mb-1">إجمالي المصروفات</span>
+                    <span class="text-3xl font-black text-rose-600">28,150 $</span>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center border-b-4 border-b-brand-500">
+                    <span class="text-gray-500 text-sm mb-1">الفائض المتبقي (لمارس)</span>
+                    <span class="text-3xl font-black text-brand-600">3,850 $</span>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center border-b-4 border-b-accent-500">
+                    <span class="text-gray-500 text-sm mb-1">نسبة الإنجاز المالي</span>
+                    <span class="text-3xl font-black text-accent-600">88%</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-center mb-4 text-gray-700">توزيع الميزانية الإجمالية</h3>
+                    <div class="chart-container max-w-md h-[300px] md:h-[350px]">
+                        <canvas id="budgetDonutChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-center mb-4 text-gray-700">تفصيل المصروفات المنفذة</h3>
+                    <div class="chart-container max-w-full h-[300px] md:h-[350px]">
+                        <canvas id="expensesBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Sponsored Families Portfolio -->
+        <section id="families" class="space-y-6">
+            <div class="mb-8 border-r-4 border-accent-500 pr-4">
+                <h2 class="text-2xl font-bold text-gray-900">تفصيل الحالات الاجتماعية (العائلات المكفولة)</h2>
+                <p class="text-gray-600 mt-2">
+                    يستعرض هذا القسم البطاقات التفصيلية للعائلات الثمانية المستمرة في برنامج الكفالة.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-6" id="family-filters">
+                <button class="px-4 py-2 bg-brand-700 text-white rounded-lg text-sm font-semibold transition filter-btn" data-filter="all">الكل</button>
+                <button class="px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-50 transition filter-btn" data-filter="تركيا">تركيا</button>
+                <button class="px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-50 transition filter-btn" data-filter="سوريا">سوريا</button>
+                <button class="px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-lg text-sm font-semibold hover:bg-gray-50 transition filter-btn" data-filter="سرطان">مرضى السرطان</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="families-grid">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- Section 4: Camps & Projects -->
+        <section id="camps" class="space-y-6">
+            <div class="mb-8 border-r-4 border-brand-500 pr-4">
+                <h2 class="text-2xl font-bold text-gray-900">دعم المخيمات والمشاريع التربوية</h2>
+                <p class="text-gray-600 mt-2">يوجه جزء من الدعم لتوفير رعاية تعليمية وتربوية وإغاثية لمجموعات من الأرامل في مخيمات الشمال السوري.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="bg-brand-700 p-4 text-white flex justify-between items-center">
+                        <h3 class="font-bold text-lg">مخيم حفيدات عائشة</h3>
+                        <span class="text-2xl">⛺</span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-4">
+                            <div class="text-gray-500 text-sm">عدد الأرامل المستفيدات</div>
+                            <div class="font-bold text-xl text-gray-900">55 أرملة</div>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-4">
+                            <div class="text-gray-500 text-sm">الحلقات القرآنية المنتظمة</div>
+                            <div class="font-bold text-xl text-brand-600 flex items-center gap-2">
+                                <span>7 حلقات</span>
+                                <span>📖</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-500 text-sm">إجمالي المصروف</div>
+                            <div class="font-bold text-xl text-accent-600">6,482.74 $</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group">
+                    <div class="bg-brand-700 p-4 text-white flex justify-between items-center">
+                        <h3 class="font-bold text-lg">مخيم عائشة بنت أبي بكر (الفوعة)</h3>
+                        <span class="text-2xl">⛺</span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-4">
+                            <div class="text-gray-500 text-sm">العائلات/الأرامل المستفيدات</div>
+                            <div class="font-bold text-xl text-gray-900">20 عائلة</div>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-4">
+                            <div class="text-gray-500 text-sm">الحلقات التربوية</div>
+                            <div class="font-bold text-xl text-brand-600 flex items-center gap-2">
+                                <span>3 حلقات</span>
+                                <span>📖</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-gray-500 text-sm">إجمالي المصروف</div>
+                            <div class="font-bold text-xl text-accent-600">1,600 $</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Governance & Evaluation -->
+        <section id="governance" class="bg-gray-800 text-white rounded-2xl p-8 shadow-md">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="text-3xl">⚖️</span>
+                    <h2 class="text-2xl font-bold">الرقابة والتقييم</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-700 p-5 rounded-xl border border-gray-600">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg text-rose-300">عائلة حنان الأحمد</h4>
+                            <span class="bg-rose-900 text-rose-200 text-xs px-2 py-1 rounded">دعم موقوف</span>
+                        </div>
+                        <p class="text-sm text-gray-400">سبب الإيقاف: تحسن الوضع المادي.</p>
+                    </div>
+                    <div class="bg-gray-700 p-5 rounded-xl border border-gray-600">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg text-rose-300">عائلة رانيا عجم</h4>
+                            <span class="bg-rose-900 text-rose-200 text-xs px-2 py-1 rounded">دعم موقوف</span>
+                        </div>
+                        <p class="text-sm text-gray-400">سبب الإيقاف: توفر بدائل دخل.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center pb-12 pt-8 border-t border-gray-200">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">أستاذنا الفاضل عبد العزيز،</h3>
+            <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed text-lg">
+                نقدر لكم ثقتكم ونسأل الله أن يبارك لكم في عطائكم.
+            </p>
+            <div class="mt-6 text-sm text-gray-400 font-semibold tracking-wider">حرر في: فبراير 2026</div>
+        </footer>
+
+    </main>
+
+    <!-- Family Details Modal -->
+    <div id="family-modal" class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden transform scale-95 transition-transform" id="modal-content">
+            <div class="bg-brand-700 p-5 flex justify-between items-center text-white">
+                <h3 class="text-xl font-bold" id="modal-name">اسم العائلة</h3>
+                <button id="close-modal" class="text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div class="flex flex-wrap gap-2 text-sm border-b border-gray-100 pb-4" id="modal-tags"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-gray-500 text-xs mb-1">مكان الإقامة</div>
+                        <div class="font-semibold text-gray-900" id="modal-location"></div>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="text-gray-500 text-xs mb-1">الوضع العائلي</div>
+                        <div class="font-semibold text-gray-900" id="modal-family-status"></div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-900 mb-2 border-r-2 border-brand-500 pr-2">الحالة الصحية والإجتماعية</h4>
+                    <p class="text-gray-700 bg-white border border-gray-200 p-4 rounded-lg leading-relaxed" id="modal-health"></p>
+                </div>
+                <div class="flex justify-between items-center bg-brand-50 p-4 rounded-lg border border-brand-100 mt-4">
+                    <span class="font-bold text-brand-900">إجمالي الكفالة المصروفة</span>
+                    <span class="text-2xl font-black text-brand-700" id="modal-sponsorship"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const familiesData = [
+                {
+                    id: 1,
+                    name: "عائلة هدى المحمود",
+                    location: "تركيا - غازي عنتاب",
+                    status: "أرملة (54 سنة)",
+                    familyState: "تعيل أسرة من 6 أفراد",
+                    health: "تعاني الأم من مرض السكري، ولديها ابن يعاني من فشل كلوي.",
+                    challenges: "إيجار منزل 20,000 ليرة تركية.",
+                    sponsorship: 1338,
+                    tags: ["تركيا", "أرملة", "فشل كلوي"]
+                },
+                {
+                    id: 2,
+                    name: "عائلة نورهان حيشية",
+                    location: "تركيا - إسطنبول",
+                    status: "مطلقة (39 سنة)",
+                    familyState: "تعيل 3 أبناء",
+                    health: "تتابع علاجاً من كتلة في الثدي.",
+                    challenges: "إيجار منزل 22,000 ليرة تركية.",
+                    sponsorship: 1675,
+                    tags: ["تركيا", "مطلقة", "سرطان"]
+                },
+                {
+                    id: 3,
+                    name: "عائلة سميحة ألوسي",
+                    location: "تركيا - إسطنبول",
+                    status: "مطلقة (52 سنة)",
+                    familyState: "تعيل ابناً مصاب بشلل كامل",
+                    health: "الأم مصابة بسرطان متقدم يخضع لعلاج كيماوي.",
+                    challenges: "رعاية كاملة للمقعدين.",
+                    sponsorship: 6100,
+                    tags: ["تركيا", "مطلقة", "سرطان", "إعاقة حركية"]
+                },
+                {
+                    id: 4,
+                    name: "عائلة ناديا دملخي",
+                    location: "تركيا - إسطنبول",
+                    status: "أرملة (51 سنة)",
+                    familyState: "تعيل 4 أبناء",
+                    health: "مريضة بالسرطان وتتابع علاجها.",
+                    challenges: "إيجار 18,000 ليرة تركية.",
+                    sponsorship: 1200,
+                    tags: ["تركيا", "أرملة", "سرطان"]
+                },
+                {
+                    id: 5,
+                    name: "عائلة ريما حج عمر",
+                    location: "تركيا - إسطنبول",
+                    status: "أرملة (48 سنة)",
+                    familyState: "تعيل 3 أطفال صغار",
+                    health: "غياب المعيل تماماً.",
+                    challenges: "إيجار 18,000 ليرة تركية.",
+                    sponsorship: 1855,
+                    tags: ["تركيا", "أرملة", "أيتام قصر"]
+                },
+                {
+                    id: 6,
+                    name: "عائلة أمينة إدريس",
+                    location: "تركيا - إسطنبول",
+                    status: "مطلقة (51 سنة)",
+                    familyState: "المعيلة لـ 5 أبناء",
+                    health: "سكري، ضغط، مشاكل في القلب.",
+                    challenges: "إيجار 15,000 ليرة تركية.",
+                    sponsorship: 2035,
+                    tags: ["تركيا", "مطلقة", "أمراض مزمنة"]
+                },
+                {
+                    id: 7,
+                    name: "عائلة منيفة معراوي",
+                    location: "سوريا - حماة",
+                    status: "أرملة (44 سنة)",
+                    familyState: "تسكن مع ابنتها وحفيدتيها",
+                    health: "ضغط، سكري، ديسك.",
+                    challenges: "إيجار 15,000 ليرة سورية.",
+                    sponsorship: 1375,
+                    tags: ["سوريا", "أرملة", "أمراض مزمنة"]
+                },
+                {
+                    id: 8,
+                    name: "عائلة عبير بيلو",
+                    location: "تركيا - إسطنبول",
+                    status: "مطلقة (33 سنة)",
+                    familyState: "تعيل طفلين مريضين",
+                    health: "تضيق شرايين الرأس.",
+                    challenges: "إيجار 12,000 ليرة تركية.",
+                    sponsorship: 1475,
+                    tags: ["تركيا", "مطلقة", "أمراض مزمنة"]
+                }
+            ];
+
+            Chart.defaults.font.family = "'Cairo', sans-serif";
+            Chart.defaults.color = '#475569';
+
+            new Chart(document.getElementById('budgetDonutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['كفالات العائلات', 'دعم المخيمات', 'مصروفات أخرى', 'الفائض'],
+                    datasets: [{
+                        data: [18063, 8083, 2004, 3850],
+                        backgroundColor: ['#0f766e', '#f59e0b', '#64748b', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', rtl: true } } }
+            });
+
+            new Chart(document.getElementById('expensesBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['كفالات مباشرة', 'المخيمات', 'مصاريف علاجية'],
+                    datasets: [{ label: 'بالدولار', data: [18063, 8083, 2004], backgroundColor: '#0f766e', borderRadius: 6 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const grid = document.getElementById('families-grid');
+            function renderFamilies(dataToRender) {
+                grid.innerHTML = '';
+                dataToRender.forEach(family => {
+                    // Changed to Hijabi Icon 🧕
+                    const icon = '🧕';
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-5 cursor-pointer transform hover:-translate-y-1 duration-200';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="text-3xl">${icon}</div>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded font-bold">${family.location.split('-')[0].trim()}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-1">${family.name}</h3>
+                        <p class="text-sm text-brand-700 font-semibold mb-3">${family.status}</p>
+                        <div class="space-y-2 mt-4 text-sm text-gray-600 border-t border-gray-100 pt-4">
+                            <div class="flex items-center gap-2"><span>💵</span> الكفالة: <strong>${family.sponsorship}$</strong></div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openModal(family));
+                    grid.appendChild(card);
+                });
+            }
+
+            const modal = document.getElementById('family-modal');
+            function openModal(family) {
+                document.getElementById('modal-name').textContent = family.name;
+                document.getElementById('modal-location').textContent = family.location;
+                document.getElementById('modal-family-status').textContent = family.status;
+                document.getElementById('modal-health').textContent = family.health;
+                document.getElementById('modal-sponsorship').textContent = `${family.sponsorship} $`;
+                document.getElementById('modal-tags').innerHTML = family.tags.map(tag => `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full">${tag}</span>`).join('');
+                modal.classList.remove('hidden');
+                document.body.classList.add('modal-open');
+                setTimeout(() => document.getElementById('modal-content').classList.replace('scale-95', 'scale-100'), 10);
+            }
+
+            document.getElementById('close-modal').addEventListener('click', () => {
+                document.getElementById('modal-content').classList.replace('scale-100', 'scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); document.body.classList.remove('modal-open'); }, 200);
+            });
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.replace('bg-brand-700', 'bg-white'));
+                    e.target.classList.replace('bg-white', 'bg-brand-700');
+                    const filter = e.target.getAttribute('data-filter');
+                    renderFamilies(filter === 'all' ? familiesData : familiesData.filter(f => f.tags.includes(filter)));
+                });
+            });
+
+            renderFamilies(familiesData);
+        });
+    </script>
+</body>
+</html>
